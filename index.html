@@ -1,0 +1,672 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mohamad Taufiq — SOC / Blue Team Portfolio</title>
+<meta name="description" content="Mohamad Taufiq's SOC and blue-team portfolio: Wazuh detection engineering, network forensics, adversary emulation, phishing investigation, CyberHealth Runner and the PQC Migration Scanner.">
+<meta property="og:title" content="Mohamad Taufiq | SOC & Blue Team">
+<meta property="og:description" content="Investigation case studies with real lab evidence, detection gaps found, and security tools built.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://taufiqbo.github.io/">
+<meta property="og:image" content="https://taufiqbo.github.io/assets/portrait.webp">
+<meta name="theme-color" content="#071009">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233FD07F' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 2l8 3v6c0 5-3.5 9-8 11-4.5-2-8-6-8-11V5z'/%3E%3Cpath d='M9 12l2 2 4-4'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#071009;--bg2:#0A140E;--card:#0C1711;--card2:#0F1D15;--line:#1D3326;--line2:#28463A;
+  --text:#E8F1EB;--sec:#B7C7BD;--muted:#8DA095;
+  --green:#3FD07F;--green-d:#1E7A49;--green-bg:#0F2A1C;--amber:#F0A04B;--amber-bg:#2A1E0E;--red:#F07B6E;--red-bg:#2C1512;--blue:#7DB7F0;--blue-bg:#0F1F2E;
+  --mono:'JetBrains Mono',ui-monospace,Consolas,monospace;--sans:'Inter',system-ui,sans-serif;
+  --r:12px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+body{margin:0;background:var(--bg);color:var(--text);font:14px/1.65 var(--mono);
+  background-image:linear-gradient(rgba(63,208,127,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(63,208,127,.035) 1px,transparent 1px);background-size:44px 44px}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;cursor:pointer;background:none;border:0;padding:0}
+img{display:block;max-width:100%}
+h1,h2,h3,h4,p{margin:0}
+:focus-visible{outline:2px solid var(--green);outline-offset:3px;border-radius:6px}
+.wrap{width:min(1440px,calc(100% - 48px));margin:0 auto}
+.skip{position:absolute;left:12px;top:-60px;background:var(--green);color:#04120A;padding:10px 14px;border-radius:8px;z-index:99;font-weight:700}
+.skip:focus{top:12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r)}
+.ico{width:20px;height:20px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:30;background:rgba(7,16,9,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;min-height:64px}
+.brand{display:flex;align-items:center;gap:12px;font-weight:700;font-size:20px}
+.brand .ico{width:30px;height:30px;color:var(--green);stroke-width:2}
+.brand em{font-style:normal;color:var(--green)}
+.links{display:flex;flex-wrap:wrap;gap:4px 34px;font-size:17px;font-weight:600}
+.links a{position:relative;padding:18px 2px;color:var(--sec)}
+.links a:hover{color:var(--text)}
+.links a.active{color:var(--text)}
+.links a.active::after{content:"";position:absolute;left:-6px;right:-6px;bottom:0;height:3px;background:var(--green);border-radius:2px}
+
+/* HERO */
+.hero{display:grid;grid-template-columns:270px minmax(0,1fr) minmax(0,520px);gap:36px;align-items:center;padding:36px 0 28px}
+.portrait{position:relative;padding:14px}
+.portrait img{width:100%;height:auto;aspect-ratio:1/1.08;object-fit:cover;border-radius:4px;filter:saturate(.9) contrast(1.05)}
+.portrait::before,.portrait::after,.portrait span::before,.portrait span::after{content:"";position:absolute;width:34px;height:34px;border-color:var(--green);border-style:solid}
+.portrait::before{top:0;left:0;border-width:3px 0 0 3px}
+.portrait::after{top:0;right:0;border-width:3px 3px 0 0}
+.portrait span::before{bottom:0;left:0;border-width:0 0 3px 3px}
+.portrait span::after{bottom:0;right:0;border-width:0 3px 3px 0}
+.status{display:inline-flex;align-items:center;gap:9px;padding:4px 14px;border:1px solid var(--line2);border-radius:999px;font-size:14px;color:var(--sec);background:var(--bg2)}
+.status i{width:9px;height:9px;border-radius:50%;background:var(--green);box-shadow:0 0 0 3px rgba(63,208,127,.18)}
+.status b{color:var(--green);font-weight:500}
+.hero h1{font-size:clamp(36px,4vw,52px);font-weight:800;letter-spacing:-1px;line-height:1.1;margin:16px 0 6px}
+.hero .sub{font-size:clamp(18px,1.9vw,25px);color:var(--sec);font-weight:500;margin-bottom:16px}
+.hero p.intro{color:var(--sec);max-width:640px}
+.actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:22px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:46px;padding:0 22px;border:1.5px solid var(--sec);border-radius:8px;font-weight:600;font-size:14px;color:var(--text);transition:background .15s,border-color .15s,color .15s}
+.btn:hover{border-color:var(--green);color:var(--green)}
+.btn.primary{background:var(--green);border-color:var(--green);color:#04120A}
+.btn.primary:hover{background:#5BE096;color:#04120A}
+.btn.sm{min-height:42px;padding:0 16px;font-size:13px}
+.term{background:#0A120D;border:1px solid var(--line2);border-radius:var(--r);overflow:hidden}
+.term-bar{display:flex;align-items:center;gap:8px;padding:10px 14px;border-bottom:1px solid var(--line);background:var(--card2)}
+.term-bar i{width:12px;height:12px;border-radius:50%;background:#5A6B61}
+.term-bar span{flex:1;text-align:center;color:var(--sec);font-size:14px;margin-right:52px}
+.term-body{padding:18px 22px;font-size:15px;line-height:1.55}
+.p{color:var(--green)}
+.log{display:grid;grid-template-columns:auto 1fr auto;gap:0 18px;padding-left:10px}
+.log .id{color:var(--amber)}
+.log .ok{color:var(--green);font-weight:600}
+.log .gen{color:var(--amber);font-weight:600}
+.log .no{color:var(--red);font-weight:600}
+.cursor{display:inline-block;width:10px;height:18px;background:var(--green);vertical-align:-3px;animation:blink 1.1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));padding:16px 8px;margin-bottom:22px}
+.stat{display:flex;align-items:center;gap:18px;padding:6px 26px;border-left:1px solid var(--line2)}
+.stat:first-child{border-left:0}
+.stat .ico{width:38px;height:38px;color:var(--green);stroke-width:1.6}
+.stat strong{display:block;font-size:30px;line-height:1.1;color:var(--green);font-weight:800}
+.stat span{font-size:13px;color:var(--sec)}
+
+/* PROJECT EXPLORER */
+.explorer{display:grid;grid-template-columns:262px minmax(0,1fr);gap:22px;align-items:start}
+.side{padding:18px 14px;position:sticky;top:84px}
+.side h2{font-size:21px;color:var(--green);padding:0 8px 14px;border-bottom:1px solid var(--line2);margin-bottom:14px}
+.plist{display:flex;flex-direction:column;gap:10px}
+.pbtn{display:flex;align-items:center;gap:14px;width:100%;text-align:left;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--bg2);min-height:64px;transition:border-color .15s,background .15s}
+.pbtn:hover{border-color:var(--line2)}
+.pbtn .ico{width:28px;height:28px;color:var(--sec)}
+.pbtn b{display:block;font-family:var(--sans);font-size:15px;font-weight:600}
+.pbtn small{display:block;font-family:var(--sans);font-size:12.5px;color:var(--muted)}
+.pbtn[aria-selected="true"]{border:1.5px solid var(--green);background:var(--green-bg)}
+.pbtn[aria-selected="true"] .ico{color:var(--green)}
+.pbtn[aria-selected="true"] small{color:var(--sec)}
+.panel{padding:22px 24px 24px}
+.phead{display:flex;flex-wrap:wrap;gap:16px 24px;align-items:flex-start;justify-content:space-between}
+.ptitle{display:flex;flex-wrap:wrap;align-items:center;gap:14px}
+.ptitle h2{font-size:clamp(22px,2.2vw,28px);font-weight:700}
+.ptitle h2 .num{color:var(--green)}
+.badge{font-size:13px;font-weight:700;padding:2px 12px;border-radius:6px;border:1.5px solid currentColor;letter-spacing:.5px}
+.badge.green{color:var(--green);background:var(--green-bg)}
+.badge.amber{color:var(--amber);background:var(--amber-bg)}
+.badge.blue{color:var(--blue);background:var(--blue-bg)}
+.pdesc{color:var(--sec);max-width:900px;margin-top:8px}
+.pending{font-size:12.5px;color:var(--muted);border:1px dashed var(--line2);border-radius:8px;padding:8px 12px}
+.tabs{display:flex;flex-wrap:wrap;gap:12px;margin:20px 0 16px}
+.tab{flex:1 1 220px;display:flex;align-items:center;justify-content:center;gap:12px;min-height:46px;padding:8px 14px;border:1px solid var(--line2);border-radius:8px;color:var(--sec);font-size:13.5px;background:var(--bg2)}
+.tab:hover{color:var(--text);border-color:var(--sec)}
+.tab .ico{width:22px;height:22px}
+.tab[aria-selected="true"]{background:var(--green);border-color:var(--green);color:#04120A;font-weight:700}
+.case{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:16px}
+.case-main{padding:16px}
+.case-main h3{font-size:clamp(18px,1.8vw,22px);font-weight:800}
+.case-main h3 .k{color:var(--green)}
+.case-main .csub{color:var(--sec);margin:2px 0 14px}
+.shots{display:grid;grid-template-columns:1.35fr 1fr;gap:16px}
+.shots.one{grid-template-columns:1fr}
+.shot{display:flex;flex-direction:column;border:1px solid var(--line2);border-radius:8px;overflow:hidden;background:#fff;text-align:left;transition:border-color .15s,transform .15s}
+.shot:hover{border-color:var(--green);transform:translateY(-2px)}
+.shot img{width:100%;height:220px;object-fit:cover;object-position:top left;background:#fff}
+.shots.one .shot img{height:auto;max-height:520px;object-fit:contain;background:#0A120D}
+.shot .cap{display:block;background:#0E1A13;color:var(--text);padding:8px 12px;font-size:12.5px;border-top:1px solid var(--line2)}
+.thumbs{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px;align-items:center}
+.thumbs .lbl{font-size:12px;color:var(--muted);margin-right:4px}
+.thumb{width:92px;height:58px;border:1px solid var(--line2);border-radius:6px;overflow:hidden;background:#fff}
+.thumb:hover{border-color:var(--green)}
+.thumb img{width:100%;height:100%;object-fit:cover;object-position:top left}
+.info{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:16px}
+.icard{padding:14px 16px;background:var(--bg2);border:1px solid var(--line);border-radius:10px}
+.icard h4{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:700;margin-bottom:8px}
+.icard h4 .ico{width:24px;height:24px;color:var(--green)}
+.icard p,.icard li{font-size:13px;color:var(--sec)}
+.icard ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:5px}
+.icard li{display:flex;gap:9px}
+.icard li::before{content:"";flex:none;width:8px;height:8px;margin-top:6px;background:var(--green);border-radius:1px}
+.case-side{display:flex;flex-direction:column;gap:16px}
+.box{padding:16px}
+.box h4{display:flex;align-items:center;gap:10px;font-size:16px;font-weight:700;padding-bottom:10px;border-bottom:1px solid var(--line);margin-bottom:8px}
+.box h4 .ico{width:26px;height:26px;color:var(--green)}
+.map{display:flex;flex-direction:column;gap:6px}
+.mrow{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;align-items:center;padding:7px 10px;border:1px solid transparent;border-radius:8px;font-size:13px}
+.mrow.on{border:1.5px solid var(--green);background:var(--green-bg)}
+.chip{font-size:12px;font-weight:600;color:var(--amber);border:1.5px solid var(--amber);border-radius:5px;padding:1px 7px;white-space:nowrap;text-align:center;min-width:92px}
+.chip.g{color:var(--green);border-color:var(--green)}
+.chip.b{color:var(--blue);border-color:var(--blue)}
+.chip.r{color:var(--red);border-color:var(--red)}
+.mrow .st{grid-column:2;font-size:11.5px;font-weight:700;letter-spacing:.4px}
+.st.ok{color:var(--green)}.st.gen{color:var(--amber)}.st.no{color:var(--red)}.st.note{color:var(--muted);font-weight:500;letter-spacing:0}
+.take{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px}
+.take li{display:flex;gap:12px;font-size:13px;color:var(--sec)}
+.take .ico{width:22px;height:22px;color:var(--green);stroke-width:2.6}
+.wlist{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-top:18px}
+.wrow{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr) auto;gap:6px 24px;padding:16px 18px;border-top:1px solid var(--line);align-items:center;background:var(--bg2)}
+.wrow:first-child{border-top:0}
+.wrow b{font-weight:700}
+.wrow span{color:var(--sec);font-size:13px}
+.wrow a{color:var(--green);font-weight:600;font-size:13px;min-height:44px;display:inline-flex;align-items:center}
+.wrow .tagx{font-size:11px;color:var(--muted);border:1px solid var(--line2);border-radius:5px;padding:1px 7px}
+
+/* LOWER SECTIONS */
+.section{padding-top:72px}
+.label{display:block;color:var(--green);font-weight:700;font-size:14px;margin-bottom:8px}
+.section h2.big{font-size:clamp(24px,2.6vw,32px);font-weight:800;letter-spacing:-.5px}
+.lede{color:var(--sec);margin-top:4px}
+.xp{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-top:22px}
+.xp .card{padding:18px}
+.xp h3{font-size:16px;margin-bottom:6px;display:flex;gap:10px;align-items:center}
+.xp h3 .ico{color:var(--green);width:22px;height:22px}
+.xp p{color:var(--sec);font-size:13px}
+.gallery{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:16px}
+.gallery .shot img{height:190px;object-position:center}
+.lower{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:22px}
+.lower>.card{padding:24px}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0 18px}
+.cchip{padding:7px 14px;border:1px solid var(--green-d);background:var(--green-bg);border-radius:8px;font-size:13px}
+.cchip.prog{border-style:dashed;border-color:var(--line2);background:transparent;color:var(--sec)}
+.sublbl{font-size:12px;color:var(--muted);letter-spacing:1px;margin-top:12px}
+.events{display:grid;grid-template-columns:minmax(0,1fr) 150px;gap:18px;align-items:start}
+.events ul{margin:10px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px;color:var(--sec)}
+.events .shot img{height:200px;object-position:center}
+.contact{margin:72px 0 0;padding:40px;border:1.5px solid var(--green-d);background:linear-gradient(var(--green-bg),var(--green-bg));border-radius:16px;display:flex;flex-wrap:wrap;gap:24px;align-items:center;justify-content:space-between}
+.contact h2{font-size:clamp(24px,2.6vw,34px);font-weight:800}
+.contact p{color:var(--sec);margin-top:6px}
+footer{padding:36px 0;text-align:center;color:var(--muted);font-size:12.5px}
+
+/* LIGHTBOX */
+.lb{position:fixed;inset:0;z-index:100;background:rgba(2,6,4,.88);display:none;align-items:center;justify-content:center;padding:24px}
+.lb.open{display:flex}
+.lb-in{max-width:min(1400px,100%);max-height:100%;display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line2);border-radius:12px;overflow:hidden}
+.lb-top{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:8px 8px 8px 16px;border-bottom:1px solid var(--line);font-size:13px;color:var(--sec)}
+.lb-top button{min-height:44px;min-width:44px;padding:0 14px;border:1px solid var(--line2);border-radius:8px}
+.lb-top button:hover{border-color:var(--green);color:var(--green)}
+.lb img{max-height:calc(100vh - 150px);width:auto;margin:auto;object-fit:contain;background:#fff}
+.lb-cap{padding:10px 16px;font-size:13px;border-top:1px solid var(--line)}
+
+/* RESPONSIVE */
+@media (max-width:1240px){
+  .hero{grid-template-columns:230px minmax(0,1fr)}
+  .term{grid-column:1/-1}
+  .case{grid-template-columns:1fr}
+  .case-side{display:grid;grid-template-columns:1fr 1fr}
+  .xp,.gallery{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:960px){
+  .explorer{grid-template-columns:minmax(0,1fr)}
+  .side,.panel{min-width:0}
+  .side{position:static;padding:14px}
+  .plist{flex-direction:row;overflow-x:auto;padding-bottom:4px}
+  .pbtn{flex:0 0 230px}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:14px}
+  .stat:nth-child(3){border-left:0}
+  .info{grid-template-columns:1fr}
+  .lower{grid-template-columns:1fr}
+  .links{gap:4px 22px;font-size:15px}
+}
+@media (max-width:680px){
+  .wrap{width:calc(100% - 28px)}
+  .hero{grid-template-columns:1fr;padding-top:20px}
+  .portrait{max-width:260px}
+  .nav-in{padding:8px 0}
+  .links a{padding:8px 2px}
+  .links a.active::after{bottom:-2px}
+  .stats{grid-template-columns:1fr}
+  .stat{border-left:0;padding:6px 10px}
+  .shots{grid-template-columns:1fr}
+  .case-side{grid-template-columns:1fr}
+  .panel{padding:16px}
+  .tab{flex-basis:100%}
+  .wrow{grid-template-columns:1fr}
+  .xp,.gallery{grid-template-columns:1fr}
+  .events{grid-template-columns:1fr}
+  .term-body{font-size:12.5px;padding:14px}
+  .log{gap:0 10px;padding-left:0}
+  .contact{padding:26px}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.cursor{animation:none}*{transition:none!important}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 2l8 3v6c0 5-3.5 9-8 11-4.5-2-8-6-8-11V5z"/><path d="M9 12l2 2 4-4"/></symbol>
+  <symbol id="i-monitor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M8 20h8M12 16v4"/></symbol>
+  <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2.5"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/><path d="M3 17.5l9 5 9-5" opacity=".6"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.5-3.5 3.2-5.5 6.5-5.5s6 2 6.5 5.5"/><path d="M15.5 4.8a3.5 3.5 0 010 6.4M18 14.8c2 .8 3.3 2.6 3.5 5.2"/></symbol>
+  <symbol id="i-atom" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1.6"/><ellipse cx="12" cy="12" rx="9.5" ry="3.8"/><ellipse cx="12" cy="12" rx="9.5" ry="3.8" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="9.5" ry="3.8" transform="rotate(120 12 12)"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="1"/><rect x="13.5" y="3.5" width="7" height="7" rx="1"/><rect x="3.5" y="13.5" width="7" height="7" rx="1"/><rect x="13.5" y="13.5" width="7" height="7" rx="1"/></symbol>
+  <symbol id="i-nodes" viewBox="0 0 24 24"><circle cx="12" cy="5" r="2.5"/><circle cx="5" cy="19" r="2.5"/><circle cx="19" cy="19" r="2.5"/><path d="M10.8 7.2L6.2 16.8M13.2 7.2l4.6 9.6M7.5 19h9"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="1.5"/><path d="M3.5 6l8.5 7 8.5-7"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></symbol>
+  <symbol id="i-cross" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/><path d="M12 1.5v4M12 18.5v4M1.5 12h4M18.5 12h4"/></symbol>
+  <symbol id="i-bars" viewBox="0 0 24 24"><path d="M4 20V11M10 20V5M16 20v-7M21 20H3"/></symbol>
+  <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M9 18h6M10 21.5h4"/><path d="M12 2.5a6.5 6.5 0 00-4 11.6c.7.6 1 1.4 1 2.4h6c0-1 .3-1.8 1-2.4A6.5 6.5 0 0012 2.5z"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></symbol>
+  <symbol id="i-github" viewBox="0 0 24 24"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 00-1.3-3.2 4.2 4.2 0 00-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 00-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 00-.1 3.2A4.6 4.6 0 004 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12M7 10l5 5 5-5M4 20h16"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-chevron" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="4.5" y="10.5" width="15" height="10" rx="1.5"/><path d="M8 10.5V7a4 4 0 018 0v3.5"/></symbol>
+  <symbol id="i-flow" viewBox="0 0 24 24"><rect x="3" y="3.5" width="7" height="5" rx="1"/><rect x="14" y="15.5" width="7" height="5" rx="1"/><path d="M6.5 8.5V13a2.5 2.5 0 002.5 2.5h5"/></symbol>
+  <symbol id="i-code" viewBox="0 0 24 24"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M13.5 4l-3 16"/></symbol>
+  <symbol id="i-fire" viewBox="0 0 24 24"><path d="M3 9h18M3 15h18M12 3v6M7 9v6M17 9v6M12 15v6"/><rect x="3" y="3" width="18" height="18" rx="1.5"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 00.3 1.8l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.7 1.7 0 00-1.8-.3 1.7 1.7 0 00-1 1.5V21a2 2 0 01-4 0v-.1a1.7 1.7 0 00-1.1-1.5 1.7 1.7 0 00-1.8.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.7 1.7 0 00.3-1.8 1.7 1.7 0 00-1.5-1H3a2 2 0 010-4h.1a1.7 1.7 0 001.5-1.1 1.7 1.7 0 00-.3-1.8l-.1-.1a2 2 0 112.8-2.8l.1.1a1.7 1.7 0 001.8.3H9a1.7 1.7 0 001-1.5V3a2 2 0 014 0v.1a1.7 1.7 0 001 1.5 1.7 1.7 0 001.8-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.7 1.7 0 00-.3 1.8V9a1.7 1.7 0 001.5 1H21a2 2 0 010 4h-.1a1.7 1.7 0 00-1.5 1z"/></symbol>
+  <symbol id="i-linkedin" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 10v7M8 7v.01M12 17v-4a2 2 0 014 0v4M12 10v7"/></symbol>
+</svg>
+
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="#top" aria-label="Taufiq portfolio, back to top"><svg class="ico"><use href="#i-shield"/></svg><span>taufiq<em>@soc</em>:~$</span></a>
+    <nav class="links" aria-label="Primary">
+      <a href="#projects" data-sec="projects">./projects</a>
+      <a href="#experience" data-sec="experience">./experience</a>
+      <a href="#certs" data-sec="certs">./certs</a>
+      <a href="#contact" data-sec="contact">./contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="wrap hero" id="top" aria-labelledby="name">
+    <div class="portrait"><span></span><img src="assets/portrait.webp" alt="Portrait of Mohamad Taufiq" width="810" height="810"></div>
+    <div>
+      <span class="status"><i aria-hidden="true"></i><span><b>Open to SOC</b> / Blue Team roles · 2027</span></span>
+      <h1 id="name">Mohamad Taufiq</h1>
+      <p class="sub">I find what default detections miss.</p>
+      <p class="intro">Final-year Cyber Security student at MMU and cybersecurity intern at Bintara Solutions. I build detection labs, emulate attacks mapped to MITRE ATT&amp;CK, and write up each investigation the way a SOC analyst would.</p>
+      <div class="actions">
+        <a class="btn primary" href="#projects">&gt; View projects</a>
+        <a class="btn" href="https://github.com/taufiqbo" target="_blank" rel="noopener noreferrer"><svg class="ico"><use href="#i-github"/></svg>GitHub</a>
+        <a class="btn" href="resume.pdf" download><svg class="ico"><use href="#i-download"/></svg>Download résumé</a>
+      </div>
+    </div>
+    <div class="term" role="img" aria-label="Terminal summary of lab detection results: brute force, LSASS access and scheduled task detected; history clearing caught only by a generic rule; registry run-key persistence produced no alert.">
+      <div class="term-bar" aria-hidden="true"><i></i><i></i><i></i><span>wazuh-alerts — analyst</span></div>
+      <div class="term-body" aria-hidden="true">
+        <div><span class="p">$ whoami</span></div>
+        <div>blue-team · detection-engineering · CTI</div>
+        <div><span class="p">$ cat</span> lab/detections.log</div>
+        <div class="log">
+          <span class="id">[T1110]</span><span>RDP brute force</span><span class="ok">DETECTED</span>
+          <span class="id">[T1003.001]</span><span>LSASS access</span><span class="ok">DETECTED</span>
+          <span class="id">[T1053.005]</span><span>Sched. task</span><span class="ok">DETECTED</span>
+          <span class="id">[T1070.003]</span><span>History cleared</span><span class="gen">GENERIC</span>
+          <span class="id">[T1547.001]</span><span>Run-key persist</span><span class="no">NO ALERT</span>
+        </div>
+        <div><span class="p">$</span> <span class="cursor"></span></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <div class="card stats" role="list" aria-label="Highlights">
+      <div class="stat" role="listitem"><svg class="ico"><use href="#i-monitor"/></svg><div><strong>4 / 7</strong><span>SOC lab phases complete</span></div></div>
+      <div class="stat" role="listitem"><svg class="ico"><use href="#i-target"/></svg><div><strong>5</strong><span>ATT&amp;CK techniques emulated</span></div></div>
+      <div class="stat" role="listitem"><svg class="ico"><use href="#i-layers"/></svg><div><strong>99</strong><span>automated tests across 2 tools</span></div></div>
+      <div class="stat" role="listitem"><svg class="ico"><use href="#i-users"/></svg><div><strong>15–20</strong><span>users behind a FortiGate I deployed</span></div></div>
+    </div>
+  </div>
+
+  <section class="wrap explorer" id="projects" aria-label="Projects">
+    <div class="card side">
+      <h2>./projects</h2>
+      <div class="plist" id="plist" role="tablist" aria-orientation="vertical" aria-label="Choose a project"></div>
+    </div>
+    <div class="card panel" id="panel" role="tabpanel" aria-live="polite"></div>
+  </section>
+
+  <section class="wrap section" id="experience" aria-labelledby="xp-h">
+    <span class="label">02 // experience</span>
+    <h2 class="big" id="xp-h">Internship at Bintara Solutions</h2>
+    <p class="lede">Technical Solutions Cybersecurity Intern · Jul 2026 – Jan 2027</p>
+    <div class="xp">
+      <article class="card"><h3><svg class="ico"><use href="#i-bolt"/></svg>Threat Radar</h3><p>A Microsoft 365 Copilot agent that writes a weekly threat briefing from NACSA, NVD and vendor advisories for the company's stack and the Managing Director.</p></article>
+      <article class="card"><h3><svg class="ico"><use href="#i-fire"/></svg>FortiGate 60F rollout</h3><p>Planned and led the install for 15–20 users: VLANs, firewall policies, guest web filtering and dual-WAN failover.</p></article>
+      <article class="card"><h3><svg class="ico"><use href="#i-mail"/></svg>Email defence</h3><p>Moved Microsoft Defender for Office 365 to the Strict preset with a tuned block list to cut spam and phishing.</p></article>
+      <article class="card"><h3><svg class="ico"><use href="#i-gear"/></svg>Ops automation</h3><p>Supported Active Directory and device-security requests, and automated daily task reporting with Power Automate.</p></article>
+    </div>
+    <div class="gallery" id="gallery-work"></div>
+  </section>
+
+  <section class="wrap section lower" id="certs" aria-label="Certifications and events">
+    <div class="card">
+      <span class="label">03 // certifications</span>
+      <h2 class="big">Certifications &amp; training</h2>
+      <p class="sublbl">EARNED</p>
+      <div class="chips"><span class="cchip">Fortinet NSE 1</span><span class="cchip">Huawei HCIA-AI V4.0</span><span class="cchip">SentinelOne Securing AI</span></div>
+      <p class="sublbl">IN PROGRESS</p>
+      <div class="chips"><span class="cchip prog">Google Cybersecurity Certificate</span><span class="cchip prog">Fortinet NSE 2</span></div>
+      <p style="color:var(--sec);font-size:13px">Vendor training: Fortinet Security Operations (FortiSIEM, FortiSOAR), Fortra Offensive Red Teaming, Fortinet SASE. Practice on TryHackMe, LetsDefend, CyberDefenders and Cisco Networking Academy.</p>
+    </div>
+    <div class="card">
+      <span class="label">04 // community</span>
+      <h2 class="big">Events 2026</h2>
+      <div class="events">
+        <ul><li>&gt; CyberDSA</li><li>&gt; RawSec MiniCon</li><li>&gt; Tenable One CTF</li></ul>
+        <div id="gallery-community"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap" id="contact" aria-labelledby="ct-h">
+    <div class="contact">
+      <div>
+        <span class="label">$ ./connect.sh</span>
+        <h2 id="ct-h">Hiring for a SOC team?</h2>
+        <p>I graduate in December 2026 and I'm based in Selangor, Malaysia. Happy to walk through any lab report.</p>
+      </div>
+      <div class="actions" style="margin-top:0">
+        <a class="btn primary" href="mailto:tadlin217@gmail.com"><svg class="ico"><use href="#i-mail"/></svg>Email me</a>
+        <a class="btn" href="https://www.linkedin.com/in/mohamad-taufiq-mohammad-fuad-22561a24a" target="_blank" rel="noopener noreferrer"><svg class="ico"><use href="#i-linkedin"/></svg>LinkedIn</a>
+        <a class="btn" href="https://github.com/taufiqbo" target="_blank" rel="noopener noreferrer"><svg class="ico"><use href="#i-github"/></svg>GitHub</a>
+      </div>
+    </div>
+  </section>
+</main>
+<footer class="wrap">© 2026 Mohamad Taufiq Bin Mohammad Fuad · built for the blue team</footer>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-labelledby="lb-cap" hidden>
+  <div class="lb-in">
+    <div class="lb-top"><span>evidence_viewer // image</span><button type="button" id="lb-close" aria-label="Close image viewer">Close ×</button></div>
+    <img id="lb-img" alt="">
+    <div class="lb-cap" id="lb-cap"></div>
+  </div>
+</div>
+
+<script>
+'use strict';
+/* ---------- content ---------- */
+const PROJECTS = [
+{
+  id:'soc', icon:'layers', name:'SOC Home Lab', sub:'Detection & Response',
+  num:'01', badge:['FLAGSHIP','green'],
+  desc:'A virtualised SOC on Proxmox: Wazuh SIEM, a Windows 10 endpoint with Sysmon, and an isolated Kali attacker. Each phase is written up as an analyst report with evidence, rule IDs and the gaps I found.',
+  link:['https://github.com/taufiqbo/SOC_LAB','Read the lab reports'],
+  cases:[
+  {
+    tab:'01 – Detection & Response', icon:'monitor',
+    k:'Case Study 01:', title:'Mimikatz & RDP brute force',
+    sub:'Detecting credential access and brute force, validated with host and SIEM evidence.',
+    shots:[['wazuh-lsass.webp','Wazuh alert – LSASS access (rule 92900, level 12)'],['mimikatz.webp','Mimikatz – sekurlsa credential enumeration'],['wazuh-failures.webp','Five RDP logon failures (rule 60122)'],['wazuh-success.webp','Successful logon two seconds later (rule 92657)']],
+    cards:[
+      ['cross','Investigation','Ran Hydra against RDP, then Mimikatz on the Windows 10 endpoint, and followed each event from Sysmon through the Wazuh agent to the alert.'],
+      ['layers','Evidence',['Rule 92900 · LSASS handle request, level 12','Rule 60122 ×5 · logon failures','Rule 92657 · success 2 s later']],
+      ['bars','Assessment','LSASS detection is behaviour-based, so a renamed tool is still caught. Brute force is a gap: no rule links the failures to the success that follows.']
+    ],
+    sideTitle:'MITRE ATT&CK Mapping',
+    map:[['T1110','Brute Force','DETECTED · no correlation','gen'],['T1003.001','OS Credential Dumping (LSASS)','DETECTED','ok',true]],
+    take:['Confirmed the full chain: endpoint → Sysmon → agent → manager → alert.','Rule 92900 matches behaviour, not a tool name.','Proposed a frequency/timeframe rule for failures followed by a success.']
+  },
+  {
+    tab:'02 – Network Forensics', icon:'nodes',
+    k:'Case Study 02:', title:'Natureforce PCAP',
+    sub:'Rebuilding an infection chain from a packet capture alone, with no endpoint telemetry.',
+    shots:[['doh.webp','DNS-over-HTTPS to dns.google right after the download'],['c2.webp','New connection to the suspected C2 on port 443'],['http-request.webp','curl download of the payload on port 9000'],['http-objects.webp','HTTP object export – runner_ilove.exe'],['kerberos.webp','Kerberos traffic identifying the user'],['protocols.webp','Protocol hierarchy overview']],
+    cards:[
+      ['cross','Investigation','Identified the infected host and user from Kerberos traffic, then followed the payload download and what the host did next in Wireshark and tshark.'],
+      ['layers','Evidence',['curl GET of runner_ilove.exe on port 9000','DoH session to 8.8.4.4 (dns[.]google)','Pseudo-TLS to 195.63.128[.]106:443']],
+      ['bars','Assessment','Full chain rebuilt from the network alone. The C2 is likely but not confirmed, and the hash was lost when Defender deleted the exported file. Both are recorded as gaps.']
+    ],
+    sideTitle:'MITRE ATT&CK Mapping',
+    map:[['T1105','Ingress Tool Transfer'],['T1571','Non-Standard Port'],['T1071.004','DNS over HTTPS evasion','','',true],['T1573','Encrypted Channel (suspected C2)']],
+    take:['Alert on DoH to public resolvers from internal hosts.','Flag executable downloads over non-standard ports.','Add JA3/JA4 fingerprinting to spot fake TLS on port 443.']
+  },
+  {
+    tab:'03 – Adversary Emulation', icon:'target',
+    k:'Case Study 03:', title:'Atomic Red Team',
+    sub:'Testing whether detections match the technique that actually ran.',
+    shots:[['art-92154.webp','Rule 92154 – correctly mapped to T1053.005'],['art-92032.webp','Rule 92032 – same event, tagged T1087 (wrong technique)'],['art-timeline.webp','Alert timeline across the test window'],['art-schtasks.webp','schtasks.exe command line'],['art-history-clear.webp','History-clear command in Sysmon'],['art-92213.webp','Rule 92213 false positive – a PowerShell policy-test .ps1']],
+    cards:[
+      ['cross','Investigation','Ran three Atomic tests on the endpoint and checked every alert field by field before attributing it to a test.'],
+      ['layers','Evidence',['92154 · taskschd.dll load, correctly mapped','92032 · cmd → schtasks, tagged T1087','92213 · level-15 alert on a benign .ps1']],
+      ['bars','Assessment','Only one of three techniques had a correctly mapped detection. Run-key persistence raised no alert at all, and history clearing was caught only by a generic rule.']
+    ],
+    sideTitle:'Detection coverage',
+    map:[['T1547.001','Registry Run Keys','NO ALERT · real gap','no'],['T1053.005','Scheduled Task','DETECTED · rule 92154','ok',true],['T1070.003','Clear Command History','GENERIC ONLY · rule 92027','gen'],['T1105','Ingress Tool Transfer','FALSE POSITIVE · rule 92213','no']],
+    take:['A rule firing is not the same as the right rule firing.','Found a level-15 false positive caused by PowerShell itself.','Documented a real gap for Registry Run Key persistence.']
+  },
+  {
+    tab:'04 – Phishing & Threat Intel', icon:'mail',
+    k:'Case Study 04:', title:'PhishStrike',
+    sub:'Triage of a fake purchase receipt, from raw headers to threat-intel enrichment.',
+    shots:[['phishing-email.webp','The lure as rendered in Outlook'],['vt-file.webp','VirusTotal – install.exe, 55 of 70 malicious'],['vt-url.webp','VirusTotal – payload URL, 12 of 93'],['vt-ip.webp','VirusTotal – host IP, 6 of 92'],['urlhaus-entries.webp','URLhaus – entries for the host'],['urlhaus-detail.webp','URLhaus – payload URL record'],['urlhaus-payloads.webp','URLhaus – payload history']],
+    cards:[
+      ['cross','Investigation','Read the raw headers bottom-up, checked SPF, DKIM and alignment, then pulled every indicator from the body and enriched it.'],
+      ['layers','Evidence',['From, Return-Path and DKIM all align','Link to install.exe on 107.175.247[.]199','The claimed attachment does not exist']],
+      ['bars','Assessment','Malicious, high confidence. The sender domain is genuine, not spoofed, so this is likely an abused real account (not confirmed). It passed both Trend Micro and Microsoft filters.']
+    ],
+    sideTitle:'MITRE ATT&CK Mapping',
+    map:[['T1566.002','Spearphishing Link','','',true],['T1204.002','User Execution: Malicious File','INFERRED','note'],['T1586.002','Compromised Email Account','ASSESSED · not confirmed','note']],
+    take:['A passing SPF/DKIM result doesn’t make an email safe.','Sources disagreed: AbuseIPDB 0%, while VirusTotal and URLhaus flagged the host.','Recorded unresolved points, like conflicting dates, instead of guessing.']
+  }]
+},
+{
+  id:'ch', icon:'shield', name:'CyberHealth Runner', sub:'External attack surface',
+  num:'02', badge:['INTERNSHIP BUILD','amber'],
+  desc:'A Dockerised platform that runs an outside-in security check on a client domain and produces a scored report. It confirms the client owns the domain before scanning, and a reviewer must sign off before anything reaches the client.',
+  link:['https://github.com/taufiqbo/cyberHealth-Check','View on GitHub'],
+  cases:[
+  {
+    tab:'Platform & workflow', icon:'flow',
+    k:'CyberHealth Runner:', title:'outside-in checks',
+    sub:'Enter a domain, prove ownership, run the checks, review, then publish a scored report.',
+    shots:[['cyberhealth-login.webp','Sign-in page'],['cyberhealth-dashboard.webp','Assessments overview'],['cyberhealth-new.webp','New assessment and ownership check'],['cyberhealth-domains.webp','Domains (client data blurred)'],['cyberhealth-plans.webp','Plan settings'],['cyberhealth-plan-options.webp','Check areas and re-assessment schedule']],
+    cards:[
+      ['cross','Problem','Clients need a quick, safe view of what an attacker sees from outside, without scanning anything they don’t own.'],
+      ['code','Build',['Python, Flask, Docker Compose, Caddy','Nmap, dnstwist, crt.sh, CISA KEV, NVD','55 automated tests']],
+      ['lock','Safeguards','No module touches a domain until ownership is proven by DNS TXT, file or signed letter, and nothing reaches a client before a reviewer signs off.']
+    ],
+    sideTitle:'Check modules',
+    map:[['EAS','Discovery & asset list'],['TLS','Certificates & protocols'],['EML','SPF, DKIM, DMARC'],['WEB','Security headers'],['BRD','Lookalike domains'],['SVC','Exposed services (Nmap ×2)'],['LCY','End-of-life software'],['VUL','KEV / NVD vulnerabilities']],
+    chip:'g',
+    take:['Designed for legal safety first: authorisation before any scan.','Nmap runs twice; only ports open in both passes count.','Honest “known limits” section for clients.']
+  },
+  {
+    tab:'Evidence & compliance', icon:'lock',
+    k:'CyberHealth Runner:', title:'audit and framework mapping',
+    sub:'Every result is traceable: evidence files, a tamper-evident log and mapping to recognised frameworks.',
+    shots:[['cyberhealth-audit.webp','Hash-chained audit trail'],['cyberhealth-vendors.webp','Framework mapping – ISO 27001 and NIST CSF 2.0'],['cyberhealth-sources.webp','Data sources and their status']],
+    cards:[
+      ['layers','Evidence','Every module run saves its raw observations and results, and the SHA-256 of that file is kept with the run.'],
+      ['lock','Audit trail','Append-only and hash-chained: any edited or removed entry breaks the chain.'],
+      ['bars','Frameworks','Each check is mapped to ISO/IEC 27001:2022 Annex A and NIST CSF 2.0, labelled as indicative, not a certification.']
+    ],
+    sideTitle:'Roles & separation of duties',
+    map:[['ADMIN','Adds people and clients; cannot sign off'],['ANALYST','Creates assessments, records approvals'],['REVIEWER','Decides flagged results, signs off','','',true],['CLIENT','Sees only its own signed-off results']],
+    chip:'b',
+    take:['A reviewer can’t sign off their own run while another reviewer exists.','Unchanged re-assessments can auto-publish, logged in the audit trail.','Inconclusive results always go to a human.']
+  },
+  {
+    tab:'Client portal & report', icon:'monitor',
+    k:'CyberHealth Runner:', title:'what the client sees',
+    sub:'A scored, plain-language report: what is wrong, why it matters, and what to fix first.',
+    shots:[['cyberhealth-portal.webp','Client dashboard – latest signed-off score and top fixes'],['cyberhealth-report.webp','Signed-off report with category scores and exports'],['cyberhealth-checks.webp','Check history with grade per domain (client domains blurred)']],
+    cards:[
+      ['users','Client view','Clients see only their own signed-off results: a 0–100 score, a letter grade, and the change since their previous check.'],
+      ['bulb','Plain language',['Headline written for non-technical staff','Why it matters, in one line','Control ID and raw evidence underneath']],
+      ['download','Exports','Each report downloads as a PDF, summary slides, CSV or JSON, so it fits both management and technical teams.']
+    ],
+    sideTitle:'Example findings',
+    map:[['EML-04','DMARC policy is “none” (spoofable email)','HIGH · FAIL','no',true],['TLS','Certificate doesn’t match site name','HIGH · FAIL','no'],['BRD-03','Lookalike domains able to send email','MEDIUM · FAIL','gen'],['BRD-04','No domain transfer lock','MEDIUM · PARTIAL','gen']],
+    take:['Severity plus pass/fail, so clients know what to fix first.','Score trend shows whether fixes are working over time.','Every report is reviewed and signed off by a person.']
+  }]
+},
+{
+  id:'pqc', icon:'atom', name:'PQC Migration Scanner', sub:'Post-quantum cryptography',
+  num:'03', badge:['OPEN SOURCE','blue'],
+  desc:'A CLI that finds quantum-vulnerable cryptography in source code, server configs and X.509 certificates, then maps each finding to its NIST post-quantum replacement.',
+  link:['https://github.com/taufiqbo/Post_Quantum_Computing-Migration_tool','View on GitHub'],
+  cases:[
+  {
+    tab:'Scanner & report', icon:'code',
+    k:'PQC Scanner:', title:'cryptographic inventory',
+    sub:'It answers the first question of any post-quantum migration: where is our cryptography?',
+    shots:[['pqc-report.webp','HTML readiness report on the included sample files']],
+    cards:[
+      ['cross','Scanners',['Regex: Python, Java, JS, Go, C/C++, C#','Python AST that follows import aliases','nginx, Apache, OpenSSH, OpenSSL configs','X.509 certificates (.pem, .crt, .der)']],
+      ['bars','Output','A quantum-readiness score with HTML, JSON and CSV reports, plus a warning when a certificate outlives NIST’s 2035 cut-off.'],
+      ['check','Quality','44 pytest tests run by GitHub Actions on Windows and Linux, packaged as the pqc-scan CLI.']
+    ],
+    sideTitle:'Migration mapping',
+    map:[['ML-KEM','Replaces RSA / ECDH / DH key exchange (FIPS 203)','','',true],['ML-DSA','Replaces RSA / ECDSA / DSA signatures (FIPS 204)'],['SLH-DSA','Hash-based backup signatures (FIPS 205)'],['WEAK','SHA-1, MD5, 3DES flagged']],
+    chip:'b',
+    take:['“Harvest now, decrypt later” makes this a problem today.','NIST IR 8547: RSA and ECC deprecated after 2030, disallowed after 2035.','Recognises hybrids like X25519MLKEM768.']
+  }]
+},
+{
+  id:'more', icon:'grid', name:'More Projects', sub:'Coursework & side builds', num:'04',
+  desc:'Smaller security projects from coursework and my own time.',
+  list:[
+    ['Sigma detection rules for Wazuh','Converted rules with test cases and false-positive tuning','Detection'],
+    ['AI-Driven Adaptive Authentication','Final Year Project: an ML model that scores login risk','FYP'],
+    ['IPSec VPN (StrongSwan)','Tunnel verified as encrypted in Wireshark','Network'],
+    ['Digital forensics & steganography','Investigation with FTK Imager, Autopsy and StegSeek','Forensics'],
+    ['SQL Server hardening','Row-level security, dynamic data masking and TDE','Database'],
+    ['F1 Tracker','7-page Streamlit app with live race data and a logistic-regression winner model','Side project','https://github.com/taufiqbo/f1-tracker']
+  ]
+}];
+const WORK = [['office-team.webp','Bintara · with the team'],['meeting.webp','Technical meeting'],['field-work.webp','Equipment installation'],['network.webp','Network infrastructure visit']];
+const COMMUNITY = [['cyberdsa.webp','CyberDSA 2026']];
+
+/* ---------- helpers ---------- */
+function h(tag, attrs, ...kids){
+  const el=document.createElement(tag);
+  for(const [k,v] of Object.entries(attrs||{})){
+    if(v==null||v===false)continue;
+    if(k==='class')el.className=v;
+    else if(k.startsWith('on'))el.addEventListener(k.slice(2),v);
+    else el.setAttribute(k,v===true?'':v);
+  }
+  for(const c of kids.flat()){ if(c==null||c===false)continue; el.append(c.nodeType?c:document.createTextNode(c)); }
+  return el;
+}
+function icon(name){
+  const ns='http://www.w3.org/2000/svg';
+  const s=document.createElementNS(ns,'svg');s.setAttribute('class','ico');s.setAttribute('aria-hidden','true');
+  const u=document.createElementNS(ns,'use');u.setAttribute('href','#i-'+name);s.append(u);return s;
+}
+function shotBtn([file,cap],cls){
+  const img=h('img',{src:'assets/'+file,alt:cap,loading:'lazy'});
+  const b=h('button',{type:'button',class:cls||'shot','aria-label':'Enlarge: '+cap},img, cls?null:h('span',{class:'cap'},cap));
+  b.addEventListener('click',()=>openLB('assets/'+file,cap,b));
+  return b;
+}
+
+/* ---------- explorer ---------- */
+const state={p:0,c:0};
+const plist=document.getElementById('plist'), panel=document.getElementById('panel');
+
+function renderList(){
+  plist.replaceChildren(...PROJECTS.map((p,i)=>{
+    const b=h('button',{type:'button',class:'pbtn',role:'tab',id:'ptab-'+p.id,'aria-controls':'panel','aria-selected':String(i===state.p),tabindex:i===state.p?'0':'-1'},
+      icon(p.icon), h('span',null,h('b',null,p.name),h('small',null,p.sub)));
+    b.addEventListener('click',()=>{state.p=i;state.c=0;renderList();renderPanel();});
+    b.addEventListener('keydown',e=>{
+      const n=PROJECTS.length;let j=null;
+      if(e.key==='ArrowDown'||e.key==='ArrowRight')j=(i+1)%n;
+      else if(e.key==='ArrowUp'||e.key==='ArrowLeft')j=(i-1+n)%n;
+      if(j!==null){e.preventDefault();state.p=j;state.c=0;renderList();renderPanel();plist.children[j].focus();}
+    });
+    return b;
+  }));
+  panel.setAttribute('aria-labelledby','ptab-'+PROJECTS[state.p].id);
+}
+
+function renderPanel(){
+  const p=PROJECTS[state.p];
+  const head=h('div',{class:'phead'},
+    h('div',null,
+      h('div',{class:'ptitle'},h('h2',null,h('span',{class:'num'},p.num+' // '),p.name), p.badge?h('span',{class:'badge '+p.badge[1]},p.badge[0]):null),
+      h('p',{class:'pdesc'},p.desc)),
+    p.link?h('a',{class:'btn sm',href:p.link[0],target:'_blank',rel:'noopener noreferrer'},icon('github'),p.link[1],icon('arrow')):null,
+    p.pending?h('span',{class:'pending'},'['+p.pending+']'):null);
+
+  if(p.list){
+    const rows=p.list.map(([t,d,tag,url])=>h('div',{class:'wrow'},h('b',null,t),h('span',null,d),
+      url?h('a',{href:url,target:'_blank',rel:'noopener noreferrer'},'GitHub ↗'):h('span',{class:'tagx'},tag)));
+    panel.replaceChildren(head,h('div',{class:'wlist'},rows));
+    return;
+  }
+
+  const tabs=h('div',{class:'tabs',role:'tablist','aria-label':p.name+' case studies'},
+    p.cases.map((c,i)=>{
+      const b=h('button',{type:'button',class:'tab',role:'tab',id:'ctab-'+i,'aria-selected':String(i===state.c),'aria-controls':'case',tabindex:i===state.c?'0':'-1'},icon(c.icon),c.tab);
+      b.addEventListener('click',()=>{state.c=i;renderPanel();document.getElementById('ctab-'+i).focus();});
+      b.addEventListener('keydown',e=>{
+        const n=p.cases.length;let j=null;
+        if(e.key==='ArrowRight')j=(i+1)%n;else if(e.key==='ArrowLeft')j=(i-1+n)%n;
+        if(j!==null){e.preventDefault();state.c=j;renderPanel();document.getElementById('ctab-'+j).focus();}
+      });
+      return b;
+    }));
+
+  const c=p.cases[state.c];
+  const main=h('div',{class:'card case-main'},
+    h('h3',null,h('span',{class:'k'},c.k+' '),c.title),
+    h('p',{class:'csub'},c.sub),
+    h('div',{class:'shots'+(c.shots.length===1?' one':'')},c.shots.slice(0,2).map(s=>shotBtn(s))),
+    c.shots.length>2?h('div',{class:'thumbs'},h('span',{class:'lbl'},'+ more evidence:'),c.shots.slice(2).map(s=>shotBtn(s,'thumb'))):null,
+    h('div',{class:'info'},c.cards.map(([ic,t,body])=>h('div',{class:'icard'},h('h4',null,icon(ic),t),
+      Array.isArray(body)?h('ul',null,body.map(x=>h('li',null,x))):h('p',null,body)))));
+
+  const side=h('div',{class:'case-side'},
+    h('div',{class:'card box'},h('h4',null,icon('cross'),c.sideTitle),
+      h('div',{class:'map'},c.map.map(([id,label,st,stc,on])=>h('div',{class:'mrow'+(on?' on':'')},
+        h('span',{class:'chip'+(c.chip?' '+c.chip:'')},id),h('span',null,label),
+        st?h('span',{class:'st '+(stc||'note')},st):null)))),
+    h('div',{class:'card box'},h('h4',null,icon('bulb'),'Key Takeaways'),
+      h('ul',{class:'take'},c.take.map(t=>h('li',null,icon('check'),h('span',null,t))))));
+
+  panel.replaceChildren(head,tabs,h('div',{class:'case',id:'case',role:'tabpanel','aria-labelledby':'ctab-'+state.c},main,side));
+}
+
+/* ---------- galleries ---------- */
+document.getElementById('gallery-work').replaceChildren(...WORK.map(s=>shotBtn(s)));
+document.getElementById('gallery-community').replaceChildren(...COMMUNITY.map(s=>shotBtn(s)));
+
+/* ---------- lightbox ---------- */
+const lb=document.getElementById('lb'),lbImg=document.getElementById('lb-img'),lbCap=document.getElementById('lb-cap'),lbClose=document.getElementById('lb-close');
+let lbReturn=null;
+function openLB(src,cap,from){lbReturn=from;lbImg.src=src;lbImg.alt=cap;lbCap.textContent=cap;lb.hidden=false;lb.classList.add('open');document.body.style.overflow='hidden';lbClose.focus();}
+function closeLB(){lb.classList.remove('open');lb.hidden=true;lbImg.removeAttribute('src');document.body.style.overflow='';if(lbReturn)lbReturn.focus();}
+lbClose.addEventListener('click',closeLB);
+lb.addEventListener('click',e=>{if(e.target===lb)closeLB();});
+lb.addEventListener('keydown',e=>{if(e.key==='Escape')closeLB();if(e.key==='Tab'){e.preventDefault();lbClose.focus();}});
+
+/* ---------- active nav link ---------- */
+const navLinks=[...document.querySelectorAll('.links a')];
+const io=new IntersectionObserver(es=>{
+  for(const e of es){if(e.isIntersecting){navLinks.forEach(a=>a.classList.toggle('active',a.dataset.sec===e.target.id));}}
+},{rootMargin:'-40% 0px -55% 0px'});
+['projects','experience','certs','contact'].forEach(id=>io.observe(document.getElementById(id)));
+
+renderList();renderPanel();
+</script>
+</body>
+</html>
