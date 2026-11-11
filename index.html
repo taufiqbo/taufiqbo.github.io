@@ -9,7 +9,7 @@
 <meta property="og:description" content="Investigation case studies with real lab evidence, detection gaps found, and security tools built.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://taufiqbo.github.io/">
-<meta property="og:image" content="https://taufiqbo.github.io/assets/portrait.webp">
+<meta property="og:image" content="https://taufiqbo.github.io/portrait.webp">
 <meta name="theme-color" content="#071009">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233FD07F' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 2l8 3v6c0 5-3.5 9-8 11-4.5-2-8-6-8-11V5z'/%3E%3Cpath d='M9 12l2 2 4-4'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -294,7 +294,7 @@ footer{padding:36px 0;text-align:center;color:var(--muted);font-size:12.5px}
 
 <main id="main">
   <section class="wrap hero" id="top" aria-labelledby="name">
-    <div class="portrait"><span></span><img src="assets/portrait.webp" alt="Portrait of Mohamad Taufiq" width="810" height="810"></div>
+    <div class="portrait"><span></span><img src="portrait.webp" alt="Portrait of Mohamad Taufiq" width="810" height="810"></div>
     <div>
       <span class="status"><i aria-hidden="true"></i><span><b>Open to SOC</b> / Blue Team roles · 2027</span></span>
       <h1 id="name">Mohamad Taufiq</h1>
@@ -572,9 +572,9 @@ function icon(name){
   const u=document.createElementNS(ns,'use');u.setAttribute('href','#i-'+name);s.append(u);return s;
 }
 function shotBtn([file,cap],cls){
-  const img=h('img',{src:'assets/'+file,alt:cap,loading:'lazy'});
+  const img=h('img',{src:''+file,alt:cap,loading:'lazy'});
   const b=h('button',{type:'button',class:cls||'shot','aria-label':'Enlarge: '+cap},img, cls?null:h('span',{class:'cap'},cap));
-  b.addEventListener('click',()=>openLB('assets/'+file,cap,b));
+  b.addEventListener('click',()=>openLB(''+file,cap,b));
   return b;
 }
 
