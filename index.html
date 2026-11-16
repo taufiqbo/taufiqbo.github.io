@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Mohamad Taufiq — SOC / Blue Team Portfolio</title>
-<meta name="description" content="Mohamad Taufiq's SOC and blue-team portfolio: Wazuh detection engineering, network forensics, adversary emulation, phishing investigation, CyberHealth Runner and the PQC Migration Scanner.">
+<meta name="description" content="Mohamad Taufiq's SOC and blue-team portfolio: Wazuh detection engineering, network forensics, adversary emulation, phishing investigation, Microsoft 365 incident response, CyberHealth Runner and the PQC Migration Scanner.">
 <meta property="og:title" content="Mohamad Taufiq | SOC & Blue Team">
 <meta property="og:description" content="Investigation case studies with real lab evidence, detection gaps found, and security tools built.">
 <meta property="og:type" content="website">
@@ -115,6 +115,7 @@ h1,h2,h3,h4,p{margin:0}
 .badge.green{color:var(--green);background:var(--green-bg)}
 .badge.amber{color:var(--amber);background:var(--amber-bg)}
 .badge.blue{color:var(--blue);background:var(--blue-bg)}
+.badge.red{color:var(--red);background:var(--red-bg)}
 .pdesc{color:var(--sec);max-width:900px;margin-top:8px}
 .pending{font-size:12.5px;color:var(--muted);border:1px dashed var(--line2);border-radius:8px;padding:8px 12px}
 .tabs{display:flex;flex-wrap:wrap;gap:12px;margin:20px 0 16px}
@@ -133,6 +134,12 @@ h1,h2,h3,h4,p{margin:0}
 .shot:hover{border-color:var(--green);transform:translateY(-2px)}
 .shot img{width:100%;height:220px;object-fit:cover;object-position:top left;background:#fff}
 .shots.one .shot img{height:auto;max-height:520px;object-fit:contain;background:#0A120D}
+.cterm .term-bar span{margin-right:52px;font-size:13px}
+.cterm .term-body{font-size:13.5px}
+.cterm .log{grid-template-columns:auto minmax(0,1fr) auto;row-gap:6px;margin:6px 0}
+.cterm .log.two{grid-template-columns:auto minmax(0,1fr)}
+.cterm .log .note{color:var(--muted)}
+.cterm .end{color:var(--green);font-weight:700}
 .shot .cap{display:block;background:#0E1A13;color:var(--text);padding:8px 12px;font-size:12.5px;border-top:1px solid var(--line2)}
 .thumbs{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px;align-items:center}
 .thumbs .lbl{font-size:12px;color:var(--muted);margin-right:4px}
@@ -178,6 +185,9 @@ h1,h2,h3,h4,p{margin:0}
 .lede{color:var(--sec);margin-top:4px}
 .xp{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-top:22px}
 .xp .card{padding:18px}
+.xp .feature{grid-column:1/-1;border:1.5px solid var(--green-d);background:var(--card2)}
+.xp .feature p{max-width:1000px}
+.xp .feature .btn{margin-top:12px}
 .xp h3{font-size:16px;margin-bottom:6px;display:flex;gap:10px;align-items:center}
 .xp h3 .ico{color:var(--green);width:22px;height:22px}
 .xp p{color:var(--sec);font-size:13px}
@@ -244,6 +254,8 @@ footer{padding:36px 0;text-align:center;color:var(--muted);font-size:12.5px}
   .xp,.gallery{grid-template-columns:1fr}
   .events{grid-template-columns:1fr}
   .term-body{font-size:12.5px;padding:14px}
+  .cterm .log{grid-template-columns:auto minmax(0,1fr)}
+  .cterm .log .ok,.cterm .log .gen,.cterm .log .no,.cterm .log .note{grid-column:2}
   .log{gap:0 10px;padding-left:0}
   .contact{padding:26px}
 }
@@ -337,6 +349,7 @@ footer{padding:36px 0;text-align:center;color:var(--muted);font-size:12.5px}
     <div class="card side">
       <h2>./projects</h2>
       <div class="plist" id="plist" role="tablist" aria-orientation="vertical" aria-label="Choose a project"></div>
+      <noscript><ul style="margin:0;padding-left:18px;color:var(--sec)"><li><a href="https://github.com/taufiqbo/SOC_LAB">SOC Home Lab</a></li><li>M365 Incident Response (anonymised)</li><li><a href="https://github.com/taufiqbo/cyberHealth-Check">CyberHealth Runner</a></li><li><a href="https://github.com/taufiqbo/Post_Quantum_Computing-Migration_tool">PQC Migration Scanner</a></li><li><a href="https://github.com/taufiqbo/f1-tracker">F1 Tracker</a> and more</li></ul><p style="color:var(--muted);font-size:12.5px;margin-top:10px">Turn on JavaScript to browse the case studies.</p></noscript>
     </div>
     <div class="card panel" id="panel" role="tabpanel" aria-live="polite"></div>
   </section>
@@ -346,6 +359,7 @@ footer{padding:36px 0;text-align:center;color:var(--muted);font-size:12.5px}
     <h2 class="big" id="xp-h">Internship at Bintara Solutions</h2>
     <p class="lede">Technical Solutions Cybersecurity Intern · Jul 2026 – Jan 2027</p>
     <div class="xp">
+      <article class="card feature"><h3><svg class="ico"><use href="#i-lock"/></svg>Microsoft 365 incident response</h3><p>Led the investigation of a Microsoft 365 compromise for a university client. Traced a compromised staff account to an attacker-created Global Admin and a malicious app registration with broad Graph permissions (User, Domain and Directory.ReadWrite.All), which carried out 10,000+ user-deletion operations. Worked from Purview and Entra ID audit and sign-in logs. My incident report and remediation plan were approved by the Managing Director.</p><a class="btn sm" href="#projects" data-open="m365">&gt; Read the case study<svg class="ico"><use href="#i-arrow"/></svg></a></article>
       <article class="card"><h3><svg class="ico"><use href="#i-bolt"/></svg>Threat Radar</h3><p>A Microsoft 365 Copilot agent that writes a weekly threat briefing from NACSA, NVD and vendor advisories for the company's stack and the Managing Director.</p></article>
       <article class="card"><h3><svg class="ico"><use href="#i-fire"/></svg>FortiGate 60F rollout plan</h3><p>Helped plan a FortiGate rollout for 15–20 users with the director and my supervisor: VLANs, firewall policies, guest web filtering and dual-WAN failover.</p></article>
       <article class="card"><h3><svg class="ico"><use href="#i-mail"/></svg>Email defence</h3><p>Moved Microsoft Defender for Office 365 to the Strict preset with a tuned block list to cut spam and phishing.</p></article>
@@ -467,8 +481,58 @@ const PROJECTS = [
   }]
 },
 {
+  id:'m365', icon:'lock', name:'M365 Incident Response', sub:'Real client investigation',
+  num:'02', badge:['CLIENT INCIDENT','red'], pending:'anonymised · client details withheld',
+  desc:'A real Microsoft 365 tenant compromise I investigated for a university client during my internship. Thousands of accounts were being deleted. I traced the deletions through Purview and Entra ID logs back to a compromised staff account, then wrote the incident report and remediation plan, which the Managing Director approved. No client names, IDs or screenshots are shown here.',
+  cases:[
+  {
+    tab:'01 – Tracing the attack', icon:'cross',
+    k:'Case Study:', title:'M365 account wipe',
+    sub:'10,000+ user-deletion operations in the audit log. The question: what did it, and how did it get in?',
+    term:{file:'cases/m365-account-wipe.md',cmd:'cat cases/m365-account-wipe.md',rows:[
+      ['[01]','Purview: deletions made by a new admin and an app identity','TRACE','gen'],
+      ['[02]','Entra ID: service principal and client ID match one app registration','MATCH','ok'],
+      ['[03]','App holds User/Domain/Directory.ReadWrite.All with admin consent','HIGH RISK','no'],
+      ['[04]','Purview: the app was added by the new Global Admin','MATCH','ok'],
+      ['[05]','Purview: that Global Admin was created from a staff IT account','MATCH','ok'],
+      ['[06]','Sign-ins: 783 attempts from 428 outside IPs, legacy auth (ROPC), no MFA prompt','ENTRY','no']],
+      end:'compromised account → rogue Global Admin → malicious app → mass deletion'},
+    cards:[
+      ['cross','Investigation','Worked backwards from the deletions in Purview to the identities behind them, matched the app identity to its registration in Entra ID by ID, then followed each creation event back to the first account involved.'],
+      ['layers','Evidence',['10,700+ deletion and 2,700+ creation operations','Graph read/write on users, domains and directory','783 sign-ins: 166 succeeded, 617 failed, 187 lockouts']],
+      ['bars','Assessment','Critical. The staff account had only ever been used on campus before this. Legacy sign-ins skipped MFA. The logs name the account, not the person, so the staff member was treated as affected, not as the cause.']
+    ],
+    sideTitle:'MITRE ATT&CK Mapping',
+    map:[['T1078.004','Valid Accounts: Cloud Accounts','CONFIRMED · sign-in logs','ok',true],['T1136.003','Create Account: Cloud Account','CONFIRMED · rogue Global Admin','ok'],['T1098.003','Additional Cloud Roles','CONFIRMED · Global Admin assigned','ok'],['T1098.001','Additional Cloud Credentials','CONFIRMED · app client secret','ok'],['T1531','Account Access Removal','CONFIRMED · mass deletion','ok'],['T1110','Brute Force','ASSESSED · entry route unproven','gen']],
+    take:['Started from the impact and worked back to the entry point.','Matched object and client IDs across Purview and Entra, not display names.','The attacker also added a mail connector and turned off transport rules, so the scope was wider than the deletions.']
+  },
+  {
+    tab:'02 – Response & lessons', icon:'shield',
+    k:'Case Study:', title:'containment and recommendations',
+    sub:'Turning the findings into a prioritised plan the client’s IT team could act on.',
+    term:{file:'cases/m365-account-wipe.md',cmd:'grep -A8 "## Actions" cases/m365-account-wipe.md',rows:[
+      ['[IMMEDIATE]','Reset the account, revoke sessions, review its MFA methods'],
+      ['[IMMEDIATE]','Remove the app’s client secret and consent grants'],
+      ['[IMMEDIATE]','Restore deleted users inside the 30-day recovery window'],
+      ['[IMMEDIATE]','Remove the rogue mail connector, re-enable transport rules'],
+      ['[HIGH]','Block legacy authentication'],
+      ['[HIGH]','Enforce strong MFA for every admin account'],
+      ['[HIGH]','Review partner GDAP roles for least privilege'],
+      ['[FOLLOW-UP]','Message trace and a search for the initial access route']],
+      end:'report approved by the Managing Director'},
+    cards:[
+      ['lock','Containment','The client disabled the app and deleted the rogue admin accounts. I flagged that this alone does not revoke the app’s secret or consent, and that the mail changes also had to be undone.'],
+      ['check','Plan',['Priority-ranked actions, each with a check','Restore deadline set from the earliest deletion','Partner access reviewed, not assumed guilty']],
+      ['bulb','Reporting','Wrote the client report: plain-language summary, dated timeline, numbered evidence chain and an action table, with confirmed facts kept apart from what was reported or still unproven.']
+    ],
+    sideTitle:'Still unconfirmed',
+    map:[['ENTRY','How the password was first obtained','NOT PROVEN','gen',true],['SCOPE','Exact number of unique users deleted','RECONCILING','gen'],['MAIL','Recipients of ~470 sent messages','MESSAGE TRACE NEEDED','gen']],
+    take:['Logs show the account, not the person. Write “the account was used”, not “the user did it”.','Check app registrations and consent grants. An app keeps working after its creator is deleted.','Document as you go. Sign-in logs have short retention, so export and note evidence the same day.']
+  }]
+},
+{
   id:'ch', icon:'shield', name:'CyberHealth Runner', sub:'External attack surface',
-  num:'02', badge:['INTERNSHIP BUILD','amber'],
+  num:'03', badge:['INTERNSHIP BUILD','amber'],
   desc:'A Dockerised platform that runs an outside-in security check on a client domain and produces a scored report. It confirms the client owns the domain before scanning, and a reviewer must sign off before anything reaches the client.',
   link:['https://github.com/taufiqbo/cyberHealth-Check','View on GitHub'],
   cases:[
@@ -519,7 +583,7 @@ const PROJECTS = [
 },
 {
   id:'pqc', icon:'atom', name:'PQC Migration Scanner', sub:'Post-quantum cryptography',
-  num:'03', badge:['OPEN SOURCE','blue'],
+  num:'04', badge:['OPEN SOURCE','blue'],
   desc:'A CLI that finds quantum-vulnerable cryptography in source code, server configs and X.509 certificates, then maps each finding to its NIST post-quantum replacement.',
   link:['https://github.com/taufiqbo/Post_Quantum_Computing-Migration_tool','View on GitHub'],
   cases:[
@@ -540,7 +604,7 @@ const PROJECTS = [
   }]
 },
 {
-  id:'more', icon:'grid', name:'More Projects', sub:'Coursework & side builds', num:'04',
+  id:'more', icon:'grid', name:'More Projects', sub:'Coursework & side builds', num:'05',
   desc:'Smaller security projects from coursework and my own time.',
   list:[
     ['Sigma detection rules for Wazuh','Converted rules with test cases and false-positive tuning','Detection'],
@@ -576,6 +640,15 @@ function shotBtn([file,cap],cls){
   const b=h('button',{type:'button',class:cls||'shot','aria-label':'Enlarge: '+cap},img, cls?null:h('span',{class:'cap'},cap));
   b.addEventListener('click',()=>openLB(''+file,cap,b));
   return b;
+}
+
+function caseTerm(t){
+  return h('div',{class:'term cterm'},
+    h('div',{class:'term-bar','aria-hidden':'true'},h('i'),h('i'),h('i'),h('span',null,t.file)),
+    h('div',{class:'term-body'},
+      h('div',null,h('span',{class:'p'},'$ '),t.cmd),
+      h('div',{class:'log'+(t.rows.some(r=>r[2])?'':' two')},t.rows.flatMap(([id,txt,st,stc])=>[h('span',{class:'id'},id),h('span',null,txt),st?h('span',{class:stc||'note'},st):null])),
+      h('div',null,h('span',{class:'p'},'> '),h('span',{class:'end'},t.end))));
 }
 
 /* ---------- explorer ---------- */
@@ -630,8 +703,8 @@ function renderPanel(){
   const main=h('div',{class:'card case-main'},
     h('h3',null,h('span',{class:'k'},c.k+' '),c.title),
     h('p',{class:'csub'},c.sub),
-    h('div',{class:'shots'+(c.shots.length===1?' one':'')},c.shots.slice(0,2).map(s=>shotBtn(s))),
-    c.shots.length>2?h('div',{class:'thumbs'},h('span',{class:'lbl'},'+ more evidence:'),c.shots.slice(2).map(s=>shotBtn(s,'thumb'))):null,
+    c.term?caseTerm(c.term):h('div',{class:'shots'+(c.shots.length===1?' one':'')},c.shots.slice(0,2).map(s=>shotBtn(s))),
+    c.shots&&c.shots.length>2?h('div',{class:'thumbs'},h('span',{class:'lbl'},'+ more evidence:'),c.shots.slice(2).map(s=>shotBtn(s,'thumb'))):null,
     h('div',{class:'info'},c.cards.map(([ic,t,body])=>h('div',{class:'icard'},h('h4',null,icon(ic),t),
       Array.isArray(body)?h('ul',null,body.map(x=>h('li',null,x))):h('p',null,body)))));
 
@@ -645,6 +718,11 @@ function renderPanel(){
 
   panel.replaceChildren(head,tabs,h('div',{class:'case',id:'case',role:'tabpanel','aria-labelledby':'ctab-'+state.c},main,side));
 }
+
+document.querySelectorAll('[data-open]').forEach(a=>a.addEventListener('click',()=>{
+  const i=PROJECTS.findIndex(p=>p.id===a.dataset.open);
+  if(i>=0){state.p=i;state.c=0;renderList();renderPanel();}
+}));
 
 /* ---------- galleries ---------- */
 document.getElementById('gallery-work').replaceChildren(...WORK.map(s=>shotBtn(s)));
